@@ -1,0 +1,54 @@
+/*
+Definition of doubly linked list:
+struct ListNode
+{
+    int val;
+    ListNode *next;
+    ListNode *prev;
+    ListNode()
+    {
+        val = 0;
+        next = NULL;
+        prev = NULL;
+    }
+    ListNode(int data1)
+    {
+        val = data1;
+        next = NULL;
+        prev = NULL;
+    }
+    ListNode(int data1, ListNode *next1, ListNode *prev1)
+    {
+        val = data1;
+        next = next1;
+        prev = prev1;
+    }
+};
+*/
+
+class Solution {
+public:
+    ListNode* insertBeforeTail(ListNode* head, int X) {
+        if(head->next==nullptr){
+            ListNode*newHead=new ListNode(X,head,nullptr);
+            head->prev=newHead;
+            return newHead;
+        }
+
+        ListNode*tail=head;
+        while(tail->next!=nullptr){
+            tail=tail->next;
+        }
+
+        ListNode*prev=tail->prev;
+        ListNode*newNode=new ListNode(X,tail,prev);
+        prev->next=newNode;
+        tail->prev=newNode;
+        return head;
+
+
+
+
+
+    }
+};
