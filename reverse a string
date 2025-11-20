@@ -1,0 +1,22 @@
+import java.util.List;
+import java.util.Collections;
+
+class Solution {
+    // Recursive or iterative version to reverse the list in-place
+    public void reverseString(List<Character> s) {
+        reverseHelper(s, 0, s.size() - 1);
+    }
+
+    private void reverseHelper(List<Character> s, int left, int right) {
+        if (left >= right) {
+            return;
+        }
+        // Swap elements at left and right
+        char temp = s.get(left);
+        s.set(left, s.get(right));
+        s.set(right, temp);
+        // Recursive call
+        reverseHelper(s, left + 1, right - 1);
+    }
+}
+
