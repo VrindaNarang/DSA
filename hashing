@@ -1,0 +1,37 @@
+import java.util.*;
+
+class Solution {
+    public int secondMostFrequentElement(int[] nums) {
+        if (nums == null || nums.length == 0) return -1;
+
+        // 1) Count frequencies
+        Map<Integer, Integer> freq = new HashMap<>();
+        for (int x : nums) {
+            freq.put(x, freq.getOrDefault(x, 0) + 1);
+        }
+
+        // 2) Find max frequency
+        int maxFreq = 0;
+        for (int f : freq.values()) {
+            if (f > maxFreq) maxFreq = f;
+        }
+
+        // 3) Find second max frequency (strictly less than maxFreq)
+        int secondMaxFreq = -1;
+        for (int f : freq.values()) {
+            if (f < maxFreq && f > secondMaxFreq) {
+                secondMaxFreq = f;
+            }
+        }
+        if (secondMaxFreq == -1) return -1; // no second most frequent
+
+        // 4) Among elements with secondMaxFreq, pick the smallest key
+        int ans = Integer.MAX_VALUE;
+        for (Map.Entry<Integer, Integer> e : freq.entrySet()) {
+            if (e.getValue() == secondMaxFreq) {
+                ans = Math.min(ans, e.getKey());
+            }
+        }
+        return ans == Integer.MAX_VALUE ? -1 : ans;
+    }
+}
