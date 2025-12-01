@@ -1,0 +1,24 @@
+class Solution {
+  public int sumHighestAndLowestFrequency(int[] nums) {
+    int maxima = nums[0];
+    int maxFreq = 0;
+    int minFreq = Integer.MAX_VALUE;
+
+    for (int x : nums) {
+      maxima = Math.max(x, maxima);
+    }
+    int[] hash = new int[maxima + 1];
+    for (int i = 0; i <= nums.length - 1; i++) {
+      hash[nums[i]]++;
+    }
+
+    for (int i = 0; i <= maxima; i++) {
+      int f = hash[i];
+      if (f > 0) { // ignore zeros for min frequency
+        if (f > maxFreq) maxFreq = f;
+        if (f < minFreq) minFreq = f;
+      }
+    }
+     return maxFreq + minFreq;
+  }
+}
