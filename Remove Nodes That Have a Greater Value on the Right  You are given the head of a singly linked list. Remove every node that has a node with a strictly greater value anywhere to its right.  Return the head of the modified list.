@@ -1,0 +1,42 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+class Node {
+public:
+    int data;
+    Node* next;
+    Node(int x) {
+        data = x;
+        next = NULL;
+    }
+};
+
+Node* reverse(Node* head) {
+    Node* prev = NULL;
+    while (head) {
+        Node* nxt = head->next;
+        head->next = prev;
+        prev = head;
+        head = nxt;
+    }
+    return prev;
+}
+
+Node* removeNodes(Node* head) {
+    head = reverse(head);
+    
+    int maxSoFar = head->data;
+    Node* curr = head;
+    
+    while (curr->next) {
+        if (curr->next->data < maxSoFar) {
+            curr->next = curr->next->next;
+        } else {
+            curr = curr->next;
+            maxSoFar = curr->data;
+        }
+    }
+    
+    head = reverse(head);
+    return head;
+}
