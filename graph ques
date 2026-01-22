@@ -1,0 +1,54 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+int networkDelayTime(int N, vector<vector<int>>& edges, int S) {
+    vector<vector<pair<int,int>>> adj(N + 1);
+    
+    for (auto &e : edges) {
+        adj[e[0]].push_back({e[1], e[2]});
+        adj[e[1]].push_back({e[0], e[2]}); // undirected
+    }
+
+    vector<long long> dist(N + 1, LLONG_MAX);
+    priority_queue<pair<long long,int>, vector<pair<long long,int>>, greater<>> pq;
+
+    dist[S] = 0;
+    pq.push({0, S});
+
+    while (!pq.empty()) {
+        auto [d, node] = pq.top();
+        pq.pop();
+
+        if (d > dist[node]) continue;
+
+        for (auto &[next, wt] : adj[node]) {
+            if (dist[next] > d + wt) {
+                dist[next] = d + wt;
+                pq.push({dist[next], next});
+            }
+        }
+    }
+
+    long long ans = 0;
+    for (int i = 1; i <= N; i++) {
+        if (dist[i] == LLONG_MAX)
+            return -1;
+        ans = max(ans, dist[i]);
+    }
+
+    return ans;
+}
+
+int main() {
+    int N = 4;
+    vector<vector<int>> edges = {
+        {1,2,1},
+        {2,3,2},
+        {1,3,4},
+        {3,4,1}
+    };
+    int S = 1;
+
+    cout << networkDelayTime(N, edges, S);
+    return 0;
+}
