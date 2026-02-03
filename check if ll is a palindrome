@@ -1,0 +1,110 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+
+// Definition of singly linked list:
+struct ListNode
+{
+    int val;
+    ListNode *next;
+    ListNode()
+    {
+        val = 0;
+        next = NULL;
+    }
+    ListNode(int data1)
+    {
+        val = data1;
+        next = NULL;
+    }
+    ListNode(int data1, ListNode *next1)
+    {
+        val = data1;
+        next = next1;
+    }
+};
+
+
+class Solution {
+public:
+    bool isPalindrome(ListNode* head) {
+        /*Create an empty stack 
+        to store values*/
+        stack<int> st;
+
+        /*Initialize temporary pointer 
+        to the head of the linked list*/
+        ListNode* temp = head;
+
+        /*Traverse the linked list 
+        and push values onto the stack*/
+        while (temp != NULL) {
+            /*Push the data from 
+            the current node onto the stack*/
+            st.push(temp->val);
+
+            // Move to the next node
+            temp = temp->next;
+        }
+
+        /*Reset temporary pointer 
+        back to the head of 
+        the linked list*/
+        temp = head;
+
+        /*Compare values by popping 
+        from the stack and checking 
+        \against linked list nodes*/
+        while (temp != NULL) {
+            if (temp->val != st.top()) {
+                /*If values don't match, 
+                it's not a palindrome*/
+                return false;
+            }
+
+            // Pop the value
+            st.pop();
+
+            /*Move to the next node 
+            in the linked list*/
+            temp = temp->next;
+        }
+
+        /*If all values match, 
+        it's a palindrome*/
+        return true;
+    }
+};
+
+/*Function to print the linked list*/
+void printLinkedList(ListNode* head) {
+    ListNode* temp = head;
+    while (temp != nullptr) {
+        cout << temp->val << " ";
+        temp = temp->next;
+    }
+    cout << endl;
+}
+
+int main() {
+    /*Create a linked list with values 1, 5, 2, 5, and 1 (15251, a palindrome)*/
+    ListNode* head = new ListNode(1);
+    head->next = new ListNode(5);
+    head->next->next = new ListNode(2);
+    head->next->next->next = new ListNode(5);
+    head->next->next->next->next = new ListNode(1);
+
+    // Print the original linked list
+    cout << "Original Linked List: ";
+    printLinkedList(head);
+
+    // Check if the linked list is a palindrome
+    Solution solution;
+    if (solution.isPalindrome(head)) {
+        cout << "The linked list is a palindrome." << endl;
+    } else {
+        cout << "The linked list is not a palindrome." << endl;
+    }
+
+    return 0;
+}
