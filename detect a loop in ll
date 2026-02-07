@@ -1,0 +1,104 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+// Definition of singly linked list:
+struct ListNode
+{
+    int val;
+    ListNode *next;
+    ListNode()
+    {
+        val = 0;
+        next = NULL;
+    }
+    ListNode(int data1)
+    {
+        val = data1;
+        next = NULL;
+    }
+    ListNode(int data1, ListNode *next1)
+    {
+        val = data1;
+        next = next1;
+    }
+};
+
+class Solution {
+public:
+    // Function to detect a loop in the linked list
+    bool hasCycle(ListNode *head) {
+        // Initialize a pointer 'temp'
+        // At the head of the linked list
+        ListNode* temp = head;  
+
+        // Create a set to keep track of
+        // Encountered nodes
+        std::unordered_set<ListNode*> nodeSet;  
+
+        // Traverse the linked list
+        while (temp != nullptr) {
+            // If the node is already in the
+            // Set, there is a loop
+            if (nodeSet.find(temp) != nodeSet.end()) {
+                return true;
+            }
+            // Store the current node
+            // In the set
+            nodeSet.insert(temp);
+            
+            // Move to the next node
+            temp = temp->next;  
+        }
+
+        // If the list is successfully traversed 
+        // Without a loop, return false
+        return false;
+    }
+};
+
+// Function to print the linked list
+void printLinkedList(ListNode* head) {
+    ListNode* temp = head;
+    // Traverse the linked list and print each node's value
+    while (temp != nullptr) { 
+        std::cout << temp->val << " ";
+        temp = temp->next;
+    }
+    std::cout << std::endl;
+}
+
+int main() {
+    // Create a sample linked list
+    // With a loop for testing
+    
+    ListNode* head = new ListNode(1);
+    ListNode* second = new ListNode(2);
+    ListNode* third = new ListNode(3);
+    ListNode* fourth = new ListNode(4);
+    ListNode* fifth = new ListNode(5);
+
+    head->next = second;
+    second->next = third;
+    third->next = fourth;
+    fourth->next = fifth;
+    // Create a loop
+    fifth->next = third; 
+
+    Solution sol;
+    // Check if there is a loop 
+    // In the linked list
+    if (sol.hasCycle(head)) {
+        cout << "Loop detected in the linked list." << endl;
+    } else {
+        cout << "No loop detected in the linked list." << endl;
+    }
+
+    // Clean up memory (free the allocated nodes)
+    delete head;
+    delete second;
+    delete third;
+    delete fourth;
+    delete fifth;
+
+    return 0;
+}
